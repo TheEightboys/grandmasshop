@@ -14,49 +14,45 @@ export function ProductCard({ product }: { product: Product }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       whileHover={{ y: -5 }}
-      className="group relative border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+      className="group relative overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl"
     >
-      <Link to="/shop/$productId" params={{ productId: product.id }}>
+      <Link to="/shop/$productId" params={{ productId: product.id }} className="block">
         <div className="overflow-hidden">
           <motion.img
             src={product.images?.[0] ?? product.image}
             alt={product.name}
-            className="w-full h-64 object-cover"
-            whileHover={{ scale: 1.05 }}
+            className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
             transition={{ duration: 0.3 }}
           />
         </div>
-        <div className="p-4 bg-white">
-          <h3 className="text-lg font-cormorant font-bold text-olive-700 truncate">
+        <div className="p-4">
+          <h3 className="truncate text-lg font-cormorant font-bold text-olive-700">
             {product.name}
           </h3>
-          <p className="text-sm text-gray-500 mt-1">{product.tagline}</p>
-          <div className="flex justify-between items-center mt-4">
-            <p className="text-lg font-semibold text-olive-600">
-              ${product.price}
-            </p>
+          <p className="mt-1 text-sm text-stone-500">{product.tagline}</p>
+          <div className="mt-4 flex items-center justify-between">
+            <p className="text-lg font-semibold text-olive-600">${product.price}</p>
             <div className="flex items-center">
-              <Star className="h-4 w-4 text-yellow-400 fill-current" />
-              <span className="text-sm text-gray-600 ml-1">
-                {product.rating}
-              </span>
+              <Star className="h-4 w-4 fill-current text-yellow-400" />
+              <span className="ml-1 text-sm text-stone-600">{product.rating}</span>
             </div>
           </div>
         </div>
       </Link>
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileHover={{ opacity: 1 }}
-        className="absolute bottom-4 right-4"
-      >
+
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-300 group-hover:pointer-events-auto group-hover:bg-black/30 group-hover:opacity-100">
         <Button
-          size="sm"
-          className="bg-olive-500 hover:bg-olive-600"
-          onClick={() => addToCart(product)}
+          size="lg"
+          className="translate-y-3 bg-olive-500 px-6 text-white opacity-0 shadow-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 hover:bg-olive-600"
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            addToCart(product);
+          }}
         >
           Add to Cart
         </Button>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

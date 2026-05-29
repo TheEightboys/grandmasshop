@@ -21,6 +21,9 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShopNotTodayRouteImport } from './routes/shop.not-today'
+import { Route as ShopHerbalIvRouteImport } from './routes/shop.herbal-iv'
+import { Route as ShopAdultEnhancementRouteImport } from './routes/shop.adult-enhancement'
 import { Route as ShopProductIdRouteImport } from './routes/shop.$productId'
 
 const TechnologyRoute = TechnologyRouteImport.update({
@@ -83,6 +86,21 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShopNotTodayRoute = ShopNotTodayRouteImport.update({
+  id: '/not-today',
+  path: '/not-today',
+  getParentRoute: () => ShopRoute,
+} as any)
+const ShopHerbalIvRoute = ShopHerbalIvRouteImport.update({
+  id: '/herbal-iv',
+  path: '/herbal-iv',
+  getParentRoute: () => ShopRoute,
+} as any)
+const ShopAdultEnhancementRoute = ShopAdultEnhancementRouteImport.update({
+  id: '/adult-enhancement',
+  path: '/adult-enhancement',
+  getParentRoute: () => ShopRoute,
+} as any)
 const ShopProductIdRoute = ShopProductIdRouteImport.update({
   id: '/$productId',
   path: '/$productId',
@@ -103,6 +121,9 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/technology': typeof TechnologyRoute
   '/shop/$productId': typeof ShopProductIdRoute
+  '/shop/adult-enhancement': typeof ShopAdultEnhancementRoute
+  '/shop/herbal-iv': typeof ShopHerbalIvRoute
+  '/shop/not-today': typeof ShopNotTodayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -118,6 +139,9 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/technology': typeof TechnologyRoute
   '/shop/$productId': typeof ShopProductIdRoute
+  '/shop/adult-enhancement': typeof ShopAdultEnhancementRoute
+  '/shop/herbal-iv': typeof ShopHerbalIvRoute
+  '/shop/not-today': typeof ShopNotTodayRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -134,6 +158,9 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/technology': typeof TechnologyRoute
   '/shop/$productId': typeof ShopProductIdRoute
+  '/shop/adult-enhancement': typeof ShopAdultEnhancementRoute
+  '/shop/herbal-iv': typeof ShopHerbalIvRoute
+  '/shop/not-today': typeof ShopNotTodayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,6 +178,9 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/technology'
     | '/shop/$productId'
+    | '/shop/adult-enhancement'
+    | '/shop/herbal-iv'
+    | '/shop/not-today'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,6 +196,9 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/technology'
     | '/shop/$productId'
+    | '/shop/adult-enhancement'
+    | '/shop/herbal-iv'
+    | '/shop/not-today'
   id:
     | '__root__'
     | '/'
@@ -181,6 +214,9 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/technology'
     | '/shop/$productId'
+    | '/shop/adult-enhancement'
+    | '/shop/herbal-iv'
+    | '/shop/not-today'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -284,6 +320,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/shop/not-today': {
+      id: '/shop/not-today'
+      path: '/not-today'
+      fullPath: '/shop/not-today'
+      preLoaderRoute: typeof ShopNotTodayRouteImport
+      parentRoute: typeof ShopRoute
+    }
+    '/shop/herbal-iv': {
+      id: '/shop/herbal-iv'
+      path: '/herbal-iv'
+      fullPath: '/shop/herbal-iv'
+      preLoaderRoute: typeof ShopHerbalIvRouteImport
+      parentRoute: typeof ShopRoute
+    }
+    '/shop/adult-enhancement': {
+      id: '/shop/adult-enhancement'
+      path: '/adult-enhancement'
+      fullPath: '/shop/adult-enhancement'
+      preLoaderRoute: typeof ShopAdultEnhancementRouteImport
+      parentRoute: typeof ShopRoute
+    }
     '/shop/$productId': {
       id: '/shop/$productId'
       path: '/$productId'
@@ -296,10 +353,16 @@ declare module '@tanstack/react-router' {
 
 interface ShopRouteChildren {
   ShopProductIdRoute: typeof ShopProductIdRoute
+  ShopAdultEnhancementRoute: typeof ShopAdultEnhancementRoute
+  ShopHerbalIvRoute: typeof ShopHerbalIvRoute
+  ShopNotTodayRoute: typeof ShopNotTodayRoute
 }
 
 const ShopRouteChildren: ShopRouteChildren = {
   ShopProductIdRoute: ShopProductIdRoute,
+  ShopAdultEnhancementRoute: ShopAdultEnhancementRoute,
+  ShopHerbalIvRoute: ShopHerbalIvRoute,
+  ShopNotTodayRoute: ShopNotTodayRoute,
 }
 
 const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)

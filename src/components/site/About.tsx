@@ -11,7 +11,7 @@ export function About() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <img
-              src={aboutImage}
+              src="/aboutImage.png"
               alt="Grandma in her garden"
               className="rounded-lg shadow-lg"
             />

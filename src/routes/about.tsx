@@ -67,7 +67,7 @@ function About() {
               className="rounded-lg overflow-hidden shadow-lg"
             >
               <img
-                src={team1}
+                src="/meditation-about.jpg"
                 alt="Making herbal remedies"
                 className="w-full h-full object-cover"
               />
