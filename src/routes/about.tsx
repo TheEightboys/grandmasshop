@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { motion } from "framer-motion";
 
@@ -7,127 +8,89 @@ export const Route = createFileRoute("/about")({
 });
 
 function About() {
-  // Using high-quality online stock image links to bypass missing local asset issues
-  const aboutImage = "https://unsplash.com";
-  const team1 = "https://unsplash.com";
-  const team2 = "https://unsplash.com";
-  const team3 = "https://unsplash.com";
-
   return (
     <SiteLayout>
-      {/* Hero Section */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="relative h-[50vh] bg-cover bg-center"
-        style={{ backgroundImage: `url(${aboutImage})` }}
-      >
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center text-white">
-          <h1 className="text-5xl md:text-7xl font-cormorant font-bold">
-            Our Story
-          </h1>
-          <p className="mt-4 text-lg md:text-xl max-w-3xl">
-            Rooted in tradition, crafted with love. Discover the heart behind
-            Grandma's Herbal Haven.
-          </p>
+      <section className="relative overflow-hidden bg-gradient-to-b from-stone-50 via-white to-olive-50/40 py-20 sm:py-24">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-olive-200/35 blur-3xl" />
+          <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-amber-100/55 blur-3xl" />
         </div>
-      </motion.section>
+        <div className="container mx-auto px-4 relative">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mx-auto max-w-6xl rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-[0_20px_70px_rgba(73,88,52,0.12)] backdrop-blur sm:p-10"
+          >
+            <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+              <div className="space-y-6 text-left">
+                <p className="text-xs font-semibold uppercase tracking-[0.35em] text-olive-700">
+                  Heritage & Wellness
+                </p>
+                <h1 className="text-4xl font-cormorant font-bold leading-tight text-olive-900 sm:text-5xl lg:text-6xl">
+                  ROOTED IN HERITAGE. GROWN THROUGH GENERATIONS.
+                </h1>
+                <div className="space-y-4 text-stone-700">
+                  <p className="text-base leading-7 sm:text-lg">
+                    Our story is rooted in Louisiana Creole traditions, Native American plant wisdom,
+                    West African botanical knowledge, and the healing practices that traveled across
+                    coastal waterways connecting communities from Louisiana to present-day Belize and
+                    beyond.
+                  </p>
+                  <p className="text-base leading-7 sm:text-lg">
+                    For generations, families cultivated herbs, roots, fruits, and healing plants not
+                    only for nourishment, but to support wellness, resilience, and connection to
+                    nature.
+                  </p>
+                  <p className="text-base leading-7 sm:text-lg">
+                    Grandma&apos;s Herbals honors these traditions by blending ancestral wisdom with
+                    modern understanding to create natural wellness solutions inspired by generations
+                    of experience and respect for the earth. Today, we continue that journey by
+                    embracing integrative wellness, regenerative living, and wholistic approaches that
+                    support balance of the mind, body, and spirit.
+                  </p>
+                </div>
 
-      {/* Philosophy Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2 className="text-4xl font-cormorant font-bold text-olive-800 mb-6">
-                Our Wellness Philosophy
-              </h2>
-              <p className="text-gray-600 leading-relaxed mb-4">
-                We believe true wellness involves more than temporary relief.
-                It's about creating emotionally safe environments, healthier
-                daily routines, and restorative experiences.
-              </p>
-              <p className="text-gray-600 leading-relaxed">
-                Our mission is to help you slow down, reconnect emotionally,
-                and build a healthier relationship with stress, sleep, and your
-                overall well-being through the gentle power of nature.
-              </p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="rounded-lg overflow-hidden shadow-lg"
-            >
-              <img
-                src="/meditation-about.jpg"
-                alt="Making herbal remedies"
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-          </div>
-        </div>
-      </section>
+                <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+                  {[
+                    "Respect Nature.",
+                    "Honor Heritage.",
+                    "Support Wellness.",
+                    "Strengthen Community.",
+                  ].map((item) => (
+                    <div
+                      key={item}
+                      className="rounded-2xl border border-stone-200/80 bg-white/90 px-4 py-4 text-left text-sm font-semibold text-olive-800 shadow-sm"
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
 
-      {/* Team Section */}
-      <section className="py-20 bg-olive-50">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-cormorant font-bold text-olive-800 mb-12">
-            Meet the Family
-          </h2>
-          <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="flex flex-col items-center"
-            >
-              <img
-                src={team2}
-                alt="Founder"
-                className="w-48 h-48 rounded-full object-cover shadow-md mb-4"
-              />
-              <h3 className="text-2xl font-cormorant font-semibold text-olive-700">
-                Eleanora
-              </h3>
-              <p className="text-sm text-gray-500 mb-2">Founder & Herbalist</p>
-              <p className="text-gray-600">
-                The heart and soul of our haven, carrying on generations of
-                herbal wisdom.
-              </p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col items-center"
-            >
-              <img
-                src={team3}
-                alt="Co-founder"
-                className="w-48 h-48 rounded-full object-cover shadow-md mb-4"
-              />
-              <h3 className="text-2xl font-cormorant font-semibold text-olive-700">
-                Isabella
-              </h3>
-              <p className="text-sm text-gray-500 mb-2">
-                Co-Founder & Creative Director
-              </p>
-              <p className="text-gray-600">
-                Eleanora's granddaughter, blending traditional knowledge with a
-                modern touch.
-              </p>
-            </motion.div>
-          </div>
+                <div className="mt-6">
+                  <Link
+                    to="/consultation"
+                    className="inline-flex items-center justify-center rounded-full bg-olive-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-olive-900/10 transition-transform duration-200 hover:-translate-y-0.5 hover:bg-olive-700"
+                  >
+                    Book a Consultation
+                  </Link>
+                </div>
+              </div>
+
+              <div className="order-first lg:order-last flex items-center justify-center">
+                <div className="w-full max-w-md overflow-hidden rounded-2xl border border-stone-200 bg-white/80 shadow-lg">
+                  <img
+                    src="/meditation-about.png"
+                    alt="Meditation scene"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
     </SiteLayout>
