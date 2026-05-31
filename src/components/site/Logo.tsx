@@ -28,11 +28,11 @@ export function Logo({ className = "" }: { className?: string }) {
       )}
 
       <span className="flex flex-col leading-none">
-        <span className="font-serif text-lg font-semibold tracking-tight text-foreground">
+        <span className="font-serif text-xl font-semibold tracking-tight text-foreground md:text-2xl">
           Grandma's Herbals
         </span>
-        <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-          Botanical Wellness
+        <span className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:text-[11px]">
+          Plant Wisdom From Root To Leaf.
         </span>
       </span>
     </Link>

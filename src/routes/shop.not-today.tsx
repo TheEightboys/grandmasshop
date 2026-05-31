@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { ProductCollectionPage } from "@/components/site/ProductCollectionPage";
-import { products } from "@/lib/products";
+import { CollectionBrowsePage } from "@/components/site/CollectionBrowsePage";
+import { getProduct } from "@/lib/products";
 
 export const Route = createFileRoute("/shop/not-today")({
   head: () => ({
@@ -17,25 +17,15 @@ export const Route = createFileRoute("/shop/not-today")({
 });
 
 function NotTodayPage() {
-  const collection = products.filter((product) => product.name === "Not Today");
-  const images = [
-    "/not-today-1.png",
-    "/not-today-2.png",
-    "/not-today-3.png",
-    "/not-today-4.png",
-    "/not-today-5.png",
-    "/not-today-6.png",
-    "/not-today-7.png",
-    "/not-today-8.png",
-  ];
+  const product = getProduct("6");
+  const images = product.images ?? [product.image];
 
   return (
     <SiteLayout>
-      <ProductCollectionPage
-        eyebrow="Dedicated Collection"
+      <CollectionBrowsePage
         title="Not Today"
-        description="Not Today now has its own showcase page, separated from the rest of the shop for faster browsing and clearer presentation."
-        products={collection}
+        description="Browse all ten Not Today image variants in one dedicated page with direct add-to-cart actions on every card."
+        product={product}
         images={images}
       />
     </SiteLayout>

@@ -13,8 +13,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { ChevronRight } from "lucide-react";
+import { CollectionShowcase } from "@/components/site/CollectionShowcase";
+import {
+  berryBalanceSection,
+  boomMaxSection,
+  citrusRestoreSection,
+  dailyHydrateSection,
+  herbalIvSection,
+  merchandiseImages,
+  notTodaySections,
+  peachFlowSection,
+  scentSections,
+  tropicalReviveSection,
+} from "@/lib/shop-content";
 
 export const Route = createFileRoute("/shop")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    browse: typeof search.browse === "string" ? search.browse : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Shop Botanical Wellness — Grandma's Herbals" },
@@ -38,6 +54,7 @@ export const Route = createFileRoute("/shop")({
 });
 
 function Shop() {
+  const { browse } = Route.useSearch();
   const [cat, setCat] = useState<(typeof categories)[number]>("All");
   const [q, setQ] = useState("");
   const [sort, setSort] = useState("featured");
@@ -53,55 +70,42 @@ function Shop() {
     if (sort === "rating") list = [...list].sort((a, b) => b.rating - a.rating);
     return list;
   }, [cat, q, sort]);
-
-  const herbalIv = filtered.filter((product) => product.name === "Herbal IV");
-  const notToday = filtered.filter((product) => product.name === "Not Today");
-  const adultEnhancement = filtered.filter((product) =>
-    ["Boom Max", "Peach Flow"].includes(product.name),
-  );
   const restOfStore = filtered.filter(
     (product) => !["Herbal IV", "Not Today", "Boom Max", "Peach Flow"].includes(product.name),
   );
+  const browseProducts = useMemo(() => {
+    if (browse === "adult-enhancement") {
+      return products.filter((product) => ["Boom Max", "Peach Flow"].includes(product.name));
+    }
+    if (browse === "herbal-iv") {
+      return products.filter((product) => product.name === "Herbal IV");
+    }
+    if (browse === "not-today") {
+      return products.filter((product) => product.name === "Not Today");
+    }
+    if (browse === "products") {
+      return restOfStore;
+    }
+    return [];
+  }, [browse, restOfStore]);
 
-  const Section = ({
-    title,
-    description,
-    href,
-    items,
-  }: {
-    title: string;
-    description: string;
-    href: string;
-    items: typeof products;
-  }) => (
-    <section className="mb-16">
-      {items.length > 0 ? (
-        <>
-          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-olive-500">Collection</p>
-              <h2 className="mt-2 text-3xl font-cormorant font-bold text-olive-800">{title}</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-600">{description}</p>
-            </div>
-            <Button
-              asChild
-              variant="ghost"
-              className="justify-start text-olive-700 hover:bg-olive-100 hover:text-olive-800 sm:justify-center"
-            >
-              <Link to={href}>
-                View collection <ChevronRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {items.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </>
-      ) : null}
-    </section>
-  );
+  const merchandiseSection = {
+    key: "merchandise",
+    eyebrow: "Merchandise For Sale",
+    title: "Grandma's Herbals Merchandise",
+    subtitle: "Branded essentials for the shop.",
+    description:
+      "Merchandise previews are shown as a dedicated gallery so each image can be presented cleanly as merchandise-1 through merchandise-9.",
+    images: merchandiseImages,
+    ctaHref: "/shop",
+    ctaLabel: "Explore shop",
+    items: merchandiseImages.map((image, index) => ({
+      title: `Merchandise ${index + 1}`,
+      subtitle: "Grandma's Herbals",
+      description: "Branded merchandise preview image.",
+      image,
+    })),
+  };
 
   return (
     <SiteLayout>
@@ -112,8 +116,8 @@ function Shop() {
             Our Apothecary
           </h1>
           <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-stone-600 md:text-lg">
-            Discover our handcrafted herbal teas, tinctures, oils, and mushroom blends, all made
-            with love and intention in small batches.
+            Discover curated botanical collections, wellness blends, scent stories, and branded
+            merchandise, all presented with intention and clean structure.
           </p>
         </div>
       </section>
@@ -167,35 +171,105 @@ function Shop() {
           </div>
         </div>
 
-        {cat === "All" ? (
+        {browse ? (
+          <div className="mb-16">
+            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-olive-500">Browse Shop</p>
+                <h2 className="mt-2 text-3xl font-cormorant font-bold text-olive-800">
+                  {browse === "adult-enhancement"
+                    ? "Adult Enhancement & Performance"
+                    : browse === "herbal-iv"
+                      ? "Herbal IV"
+                      : browse === "not-today"
+                        ? "Not Today"
+                        : "Shop Products"}
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-600">
+                  Browse the product cards directly instead of the editorial collection layout.
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {browseProducts.map((p) => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </div>
+          </div>
+        ) : cat === "All" ? (
           <>
-            <Section
-              title="Herbal IV"
-              description="A dedicated wellness support collection for Herbal IV, with its own page and spotlight in the shop."
-              href="/shop/herbal-iv"
-              items={herbalIv}
-            />
+            <CollectionShowcase {...boomMaxSection} />
+            <CollectionShowcase {...peachFlowSection} />
+            <CollectionShowcase {...herbalIvSection} />
+            <CollectionShowcase {...tropicalReviveSection} />
+            <CollectionShowcase {...berryBalanceSection} />
+            <CollectionShowcase {...citrusRestoreSection} />
+            <CollectionShowcase {...dailyHydrateSection} />
 
-            <Section
-              title="Not Today"
-              description="Focused energy and clarity support showcased separately so it is easy to find and explore."
-              href="/shop/not-today"
-              items={notToday}
-            />
+            <div className="mb-16">
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-olive-500">Dedicated Collection</p>
+                  <h2 className="mt-2 text-3xl font-cormorant font-bold text-olive-800">NOT TODAY</h2>
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-600">
+                    Ten focused wellness stories, each with its own image and content so the full
+                    Not Today range can be browsed one by one.
+                  </p>
+                </div>
+                <Button
+                  asChild
+                  variant="ghost"
+                  className="justify-start text-olive-700 hover:bg-olive-100 hover:text-olive-800 sm:justify-center"
+                >
+                  <Link to="/shop/not-today">
+                    View collection <ChevronRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+              <div className="space-y-4">
+                {notTodaySections.map((section) => (
+                  <CollectionShowcase key={section.key} {...section} />
+                ))}
+              </div>
+            </div>
 
-            <Section
-              title="Adult Enhancement & Performance"
-              description="Boom Max and Peach Flow are presented together as a separate performance collection."
-              href="/shop/adult-enhancement"
-              items={adultEnhancement}
-            />
+            <CollectionShowcase {...merchandiseSection} />
 
-            <Section
-              title="All Other Wellness Products"
-              description="The rest of the shop collection, displayed separately so each group remains easy to browse."
-              href="/shop"
-              items={restOfStore}
-            />
+            <div className="mb-16">
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-olive-500">Signature Home Fragrance</p>
+                  <h2 className="mt-2 text-3xl font-cormorant font-bold text-olive-800">Grandma's Herbals Scents</h2>
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-600">
+                    Four candle scent directions with clean layouts for the new scent images.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                {scentSections.map((section) => (
+                  <CollectionShowcase key={section.key} {...section} />
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-16">
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-olive-500">Shop Products</p>
+                  <h2 className="mt-2 text-3xl font-cormorant font-bold text-olive-800">Browse the rest of the shop</h2>
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-600">
+                    The original product grid remains available for the remaining wellness items.
+                  </p>
+                </div>
+              </div>
+              {restOfStore.length > 0 ? (
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  {restOfStore.map((p) => (
+                    <ProductCard key={p.id} product={p} />
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </>
         ) : (
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
